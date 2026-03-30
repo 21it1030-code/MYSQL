@@ -1,0 +1,438 @@
+Last login: Sat Mar 28 09:27:45 on ttys000
+rajeshhome@prakashs-MacBook-Pro ~ % - mysql -u root -p
+zsh: command not found: mysql
+rajeshhome@prakashs-MacBook-Pro ~ % /usr/local/mysql/bin/mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 16
+Server version: 8.0.45 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use prakash;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> desc employee;
++-------------+--------------------------------------------------------+------+-----+---------+-------+
+| Field       | Type                                                   | Null | Key | Default | Extra |
++-------------+--------------------------------------------------------+------+-----+---------+-------+
+| emp_id      | int unsigned                                           | YES  |     | NULL    |       |
+| emp_name    | varchar(20)                                            | YES  |     | NULL    |       |
+| emp_pasword | varbinary(2)                                           | YES  |     | NULL    |       |
+| salary      | decimal(4,2)                                           | YES  |     | NULL    |       |
+| doj         | date                                                   | YES  |     | NULL    |       |
+| gander      | enum('female','male','other')                          | YES  |     | NULL    |       |
+| skills      | set('python','java','mysql','frontend','docker','aws') | YES  |     | NULL    |       |
+| address     | tinytext                                               | YES  |     | NULL    |       |
+| emp_DP      | longblob                                               | YES  |     | NULL    |       |
++-------------+--------------------------------------------------------+------+-----+---------+-------+
+9 rows in set (0.01 sec)
+
+mysql> alter table employee add column exp_year tinyint unsigned;
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-------------+--------------------------------------------------------+------+-----+---------+-------+
+| Field       | Type                                                   | Null | Key | Default | Extra |
++-------------+--------------------------------------------------------+------+-----+---------+-------+
+| emp_id      | int unsigned                                           | YES  |     | NULL    |       |
+| emp_name    | varchar(20)                                            | YES  |     | NULL    |       |
+| emp_pasword | varbinary(2)                                           | YES  |     | NULL    |       |
+| salary      | decimal(4,2)                                           | YES  |     | NULL    |       |
+| doj         | date                                                   | YES  |     | NULL    |       |
+| gander      | enum('female','male','other')                          | YES  |     | NULL    |       |
+| skills      | set('python','java','mysql','frontend','docker','aws') | YES  |     | NULL    |       |
+| address     | tinytext                                               | YES  |     | NULL    |       |
+| emp_DP      | longblob                                               | YES  |     | NULL    |       |
+| exp_year    | tinyint unsigned                                       | YES  |     | NULL    |       |
++-------------+--------------------------------------------------------+------+-----+---------+-------+
+10 rows in set (0.01 sec)
+
+mysql> create table student(stu_id int unsigned,student_name varchar(20));
+ERROR 1050 (42S01): Table 'student' already exists
+mysql> desc student
+    -> ;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| name    | varchar(10) | YES  |     | NULL    |       |
+| id      | int         | YES  |     | NULL    |       |
+| college | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.05 sec)
+
+mysql> alter table student add column address tinytext;
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| name    | varchar(10) | YES  |     | NULL    |       |
+| id      | int         | YES  |     | NULL    |       |
+| college | varchar(20) | YES  |     | NULL    |       |
+| address | tinytext    | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table student add column s_no int unsigned first;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> dsec student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dsec student' at line 1
+mysql> desc student;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| s_no    | int unsigned | YES  |     | NULL    |       |
+| name    | varchar(10)  | YES  |     | NULL    |       |
+| id      | int          | YES  |     | NULL    |       |
+| college | varchar(20)  | YES  |     | NULL    |       |
+| address | tinytext     | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+5 rows in set (0.04 sec)
+
+mysql> alter table student add column stu_phno char(10) after college;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| s_no     | int unsigned | YES  |     | NULL    |       |
+| name     | varchar(10)  | YES  |     | NULL    |       |
+| id       | int          | YES  |     | NULL    |       |
+| college  | varchar(20)  | YES  |     | NULL    |       |
+| stu_phno | char(10)     | YES  |     | NULL    |       |
+| address  | tinytext     | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> -- alter modify to change datatype of column
+mysql> alter table student modify column name varchar(30);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table student modify address tinytext after id;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| s_no     | int unsigned | YES  |     | NULL    |       |
+| name     | varchar(30)  | YES  |     | NULL    |       |
+| id       | int          | YES  |     | NULL    |       |
+| address  | tinytext     | YES  |     | NULL    |       |
+| college  | varchar(20)  | YES  |     | NULL    |       |
+| stu_phno | char(10)     | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+6 rows in set (0.03 sec)
+
+mysql> -- alter rename table column name
+mysql> alter table student rename stu_phno to stu
+    -> _ph;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to stu
+_ph' at line 1
+mysql> alter table student rename stu_phno to stu_ph;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to stu_ph' at line 1
+mysql> alter table student rename column stu_phno to stu_ph;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| s_no    | int unsigned | YES  |     | NULL    |       |
+| name    | varchar(30)  | YES  |     | NULL    |       |
+| id      | int          | YES  |     | NULL    |       |
+| address | tinytext     | YES  |     | NULL    |       |
+| college | varchar(20)  | YES  |     | NULL    |       |
+| stu_ph  | char(10)     | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+6 rows in set (0.03 sec)
+
+mysql> -- change
+mysql> alter table student change id rollno bigint unsigned;
+Query OK, 4 rows affected (0.06 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++---------+-----------------+------+-----+---------+-------+
+| Field   | Type            | Null | Key | Default | Extra |
++---------+-----------------+------+-----+---------+-------+
+| s_no    | int unsigned    | YES  |     | NULL    |       |
+| name    | varchar(30)     | YES  |     | NULL    |       |
+| rollno  | bigint unsigned | YES  |     | NULL    |       |
+| address | tinytext        | YES  |     | NULL    |       |
+| college | varchar(20)     | YES  |     | NULL    |       |
+| stu_ph  | char(10)        | YES  |     | NULL    |       |
++---------+-----------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> alter table student drop column college;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++---------+-----------------+------+-----+---------+-------+
+| Field   | Type            | Null | Key | Default | Extra |
++---------+-----------------+------+-----+---------+-------+
+| s_no    | int unsigned    | YES  |     | NULL    |       |
+| name    | varchar(30)     | YES  |     | NULL    |       |
+| rollno  | bigint unsigned | YES  |     | NULL    |       |
+| address | tinytext        | YES  |     | NULL    |       |
+| stu_ph  | char(10)        | YES  |     | NULL    |       |
++---------+-----------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> 
+mysql> alter table student add column email varchar(30),rename column address to stu_sddress,drop column s_no;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++-------------+-----------------+------+-----+---------+-------+
+| Field       | Type            | Null | Key | Default | Extra |
++-------------+-----------------+------+-----+---------+-------+
+| name        | varchar(30)     | YES  |     | NULL    |       |
+| rollno      | bigint unsigned | YES  |     | NULL    |       |
+| stu_sddress | tinytext        | YES  |     | NULL    |       |
+| stu_ph      | char(10)        | YES  |     | NULL    |       |
+| email       | varchar(30)     | YES  |     | NULL    |       |
++-------------+-----------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> alter table employee drop column gender,skills;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'skills' at line 1
+mysql> alter table employee drop column gender;
+ERROR 1091 (42000): Can't DROP 'gender'; check that column/key exists
+mysql> desc employee;
++-------------+--------------------------------------------------------+------+-----+---------+-------+
+| Field       | Type                                                   | Null | Key | Default | Extra |
++-------------+--------------------------------------------------------+------+-----+---------+-------+
+| emp_id      | int unsigned                                           | YES  |     | NULL    |       |
+| emp_name    | varchar(20)                                            | YES  |     | NULL    |       |
+| emp_pasword | varbinary(2)                                           | YES  |     | NULL    |       |
+| salary      | decimal(4,2)                                           | YES  |     | NULL    |       |
+| doj         | date                                                   | YES  |     | NULL    |       |
+| gander      | enum('female','male','other')                          | YES  |     | NULL    |       |
+| skills      | set('python','java','mysql','frontend','docker','aws') | YES  |     | NULL    |       |
+| address     | tinytext                                               | YES  |     | NULL    |       |
+| emp_DP      | longblob                                               | YES  |     | NULL    |       |
+| exp_year    | tinyint unsigned                                       | YES  |     | NULL    |       |
++-------------+--------------------------------------------------------+------+-----+---------+-------+
+10 rows in set (0.02 sec)
+
+mysql> alter table employee drop column gender;
+ERROR 1091 (42000): Can't DROP 'gender'; check that column/key exists
+mysql> alter table employee drop column gander;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee drop column skills;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-------------+------------------+------+-----+---------+-------+
+| Field       | Type             | Null | Key | Default | Extra |
++-------------+------------------+------+-----+---------+-------+
+| emp_id      | int unsigned     | YES  |     | NULL    |       |
+| emp_name    | varchar(20)      | YES  |     | NULL    |       |
+| emp_pasword | varbinary(2)     | YES  |     | NULL    |       |
+| salary      | decimal(4,2)     | YES  |     | NULL    |       |
+| doj         | date             | YES  |     | NULL    |       |
+| address     | tinytext         | YES  |     | NULL    |       |
+| emp_DP      | longblob         | YES  |     | NULL    |       |
+| exp_year    | tinyint unsigned | YES  |     | NULL    |       |
++-------------+------------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> alter table employee drop column emp_DP,exp_year,doj;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'exp_year,doj' at line 1
+mysql> alter table employee drop column emp_DP;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee drop column exp_year;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee drop column doj;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| emp_id      | int unsigned | YES  |     | NULL    |       |
+| emp_name    | varchar(20)  | YES  |     | NULL    |       |
+| emp_pasword | varbinary(2) | YES  |     | NULL    |       |
+| salary      | decimal(4,2) | YES  |     | NULL    |       |
+| address     | tinytext     | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table employee rename emp_id to id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to id' at line 1
+mysql> alter table employee rename column emp_id to id;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee modify column id int(10);
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> desc employee;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| id          | int          | YES  |     | NULL    |       |
+| emp_name    | varchar(20)  | YES  |     | NULL    |       |
+| emp_pasword | varbinary(2) | YES  |     | NULL    |       |
+| salary      | decimal(4,2) | YES  |     | NULL    |       |
+| address     | tinytext     | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table employee change column emp_name name char(20);
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| id          | int          | YES  |     | NULL    |       |
+| name        | char(20)     | YES  |     | NULL    |       |
+| emp_pasword | varbinary(2) | YES  |     | NULL    |       |
+| salary      | decimal(4,2) | YES  |     | NULL    |       |
+| address     | tinytext     | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+5 rows in set (0.03 sec)
+
+mysql> alter table emploee rename column emp_pasword to code;
+ERROR 1146 (42S02): Table 'prakash.emploee' doesn't exist
+mysql> alter table employee rename column emp_pasword to code;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| id      | int          | YES  |     | NULL    |       |
+| name    | char(20)     | YES  |     | NULL    |       |
+| code    | varbinary(2) | YES  |     | NULL    |       |
+| salary  | decimal(4,2) | YES  |     | NULL    |       |
+| address | tinytext     | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> alter table employee modify column name char(20) first;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| name    | char(20)     | YES  |     | NULL    |       |
+| id      | int          | YES  |     | NULL    |       |
+| code    | varbinary(2) | YES  |     | NULL    |       |
+| salary  | decimal(4,2) | YES  |     | NULL    |       |
+| address | tinytext     | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> -- rename cmd to change the table name
+mysql> rename table student to stu_info;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc stu_info;
++-------------+-----------------+------+-----+---------+-------+
+| Field       | Type            | Null | Key | Default | Extra |
++-------------+-----------------+------+-----+---------+-------+
+| name        | varchar(30)     | YES  |     | NULL    |       |
+| rollno      | bigint unsigned | YES  |     | NULL    |       |
+| stu_sddress | tinytext        | YES  |     | NULL    |       |
+| stu_ph      | char(10)        | YES  |     | NULL    |       |
+| email       | varchar(30)     | YES  |     | NULL    |       |
++-------------+-----------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> -- drop table
+mysql> drop employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'employee' at line 1
+mysql> drop table employee;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_prakash |
++-------------------+
+| person            |
+| stu_info          |
++-------------------+
+2 rows in set (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| prakash            |
+| sys                |
++--------------------+
+5 rows in set (0.08 sec)
+
+mysql> create table book(id int(10),name varchar(10),cost int(10));
+Query OK, 0 rows affected, 2 warnings (0.09 sec)
+
+mysql> desc book;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | YES  |     | NULL    |       |
+| name  | varchar(10) | YES  |     | NULL    |       |
+| cost  | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+mysql> insert into book values(1,'one',10);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into book (id,name,cost) values (2,'two',11),(3,'tre',13),(4,'four',14);
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from book;
++------+------+------+
+| id   | name | cost |
++------+------+------+
+|    1 | one  |   10 |
+|    2 | two  |   11 |
+|    3 | tre  |   13 |
+|    4 | four |   14 |
++------+------+------+
+4 rows in set (0.00 sec)
+
+mysql> 
