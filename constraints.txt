@@ -1,0 +1,340 @@
+Last login: Tue Mar 31 10:40:21 on ttys000
+rajeshhome@prakashs-MacBook-Pro ~ % /usr/local/mysql/bin/mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 18
+Server version: 8.0.45 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> -- NOT NULL
+mysql> -- DEFAULT
+mysql> --UNIQUE KEY
+    -> 
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--UNIQUE KEY' at line 1
+mysql> -- PRIMARY KEY
+mysql> -- AUTO-INCREMENT
+mysql> -- CHECK
+mysql> -- FOREIGN KEY
+mysql> use prakash;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> create table item(itemid int unsigned not null,itemname varchar(20),not null)
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'not null)' at line 1
+mysql> create table item(itemid int unsigned not null,itemname varchar(20),not null);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'not null)' at line 1
+mysql> create table item(itemid int unsigned not null,itemname varchar(20) not null);
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> desc item;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| itemid   | int unsigned | NO   |     | NULL    |       |
+| itemname | varchar(20)  | NO   |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+2 rows in set (0.02 sec)
+
+mysql> select * from item;
+Empty set (0.01 sec)
+
+mysql> insert into item values(1,'phone'),(2,'watch'),(3,'null');
+Query OK, 3 rows affected (0.02 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from item;
++--------+----------+
+| itemid | itemname |
++--------+----------+
+|      1 | phone    |
+|      2 | watch    |
+|      3 | null     |
++--------+----------+
+3 rows in set (0.00 sec)
+
+mysql> insert into item values(1,'phone'),(2,);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> insert into item values(1,'phone'),(2,null);
+ERROR 1048 (23000): Column 'itemname' cannot be null
+mysql> select * from item;
++--------+----------+
+| itemid | itemname |
++--------+----------+
+|      1 | phone    |
+|      2 | watch    |
+|      3 | null     |
++--------+----------+
+3 rows in set (0.01 sec)
+
+mysql> update item set itemname='cap' where itemid=3;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from item;
++--------+----------+
+| itemid | itemname |
++--------+----------+
+|      1 | phone    |
+|      2 | watch    |
+|      3 | cap      |
++--------+----------+
+3 rows in set (0.00 sec)
+
+mysql> insert into item (itemid) values(1);
+ERROR 1364 (HY000): Field 'itemname' doesn't have a default value
+mysql> insert into item(itemid) values(1);
+ERROR 1364 (HY000): Field 'itemname' doesn't have a default value
+mysql> -- DEFAULT
+mysql> drop item;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'item' at line 1
+mysql> drop table item;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> create table item(itemid int unsigned not nulldefault 100,itemname varchar(20),not null);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'nulldefault 100,itemname varchar(20),not null)' at line 1
+mysql> create table item(itemid int unsigned not null default 100,itemname varchar(20),not null);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'not null)' at line 1
+mysql> create table item(itemid int unsigned not null default 100,itemname varchar(20) not null);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc item;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| itemid   | int unsigned | NO   |     | 100     |       |
+| itemname | varchar(20)  | NO   |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+2 rows in set (0.03 sec)
+
+mysql> insert into item(itemname) values('watch');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from item;
++--------+----------+
+| itemid | itemname |
++--------+----------+
+|    100 | watch    |
++--------+----------+
+1 row in set (0.00 sec)
+
+mysql> insert into item(itemname) values('phone');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from item;
++--------+----------+
+| itemid | itemname |
++--------+----------+
+|    100 | watch    |
+|    100 | phone    |
++--------+----------+
+2 rows in set (0.01 sec)
+
+mysql> -- UNIQUE -> it accepts only unique values, but also null values too.
+mysql> drop table item;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table item(itemid int unsigned unique key,
+    -> itemname varchar(20) noit null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'noit null' at line 2
+mysql> create table item(itemid int unsigned unique key, itemname varchar(20) not null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> create table item(itemid int unsigned unique key,itemname varchar(20) not null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> create table item(itemid int unsigned unique key,itemname varchar(20) not null);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into item values(1,'phone'),(2,'watch');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> desc item;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| itemid   | int unsigned | YES  | UNI | NULL    |       |
+| itemname | varchar(20)  | NO   |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+2 rows in set (0.02 sec)
+
+mysql> select * from item;
++--------+----------+
+| itemid | itemname |
++--------+----------+
+|      1 | phone    |
+|      2 | watch    |
++--------+----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into item values(1,'phone'),(2,'watch');
+ERROR 1062 (23000): Duplicate entry '1' for key 'item.itemid'
+mysql> -- PRIMARY KEY --> it accepts unique values, but does not null values. table may contain only primary key.
+mysql> drop table item;
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> create table item(itemid int unsigned primary key,itemname varchar(20) unique key not null,item_mfd date not null);
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> desc item;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| itemid   | int unsigned | NO   | PRI | NULL    |       |
+| itemname | varchar(20)  | NO   | UNI | NULL    |       |
+| item_mfd | date         | NO   |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+3 rows in set (0.03 sec)
+
+mysql> insert into item values(1,'phone','2022-01-01');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into item values(2,'watch','2032-01-01');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from item;
++--------+----------+------------+
+| itemid | itemname | item_mfd   |
++--------+----------+------------+
+|      1 | phone    | 2022-01-01 |
+|      2 | watch    | 2032-01-01 |
++--------+----------+------------+
+2 rows in set (0.02 sec)
+
+mysql> -- AUTO_INCREAMENT --> it only applies to primary key column with intb types.
+mysql> drop table item;
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> create table item(itemid int unsigned primary key auto_increment,itemname varchar(20),item_mfd date not null);
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> desc item;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| itemid   | int unsigned | NO   | PRI | NULL    | auto_increment |
+| itemname | varchar(20)  | YES  |     | NULL    |                |
+| item_mfd | date         | NO   |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+3 rows in set (0.03 sec)
+
+mysql> insert into item(itemname,item_mfd) values('watch','2023-01-01');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into item(itemname,item_mfd) values('watch','2023-01-01');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into item(itemname,item_mfd) values('watch','2023-01-01');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from item;
++--------+----------+------------+
+| itemid | itemname | item_mfd   |
++--------+----------+------------+
+|      1 | watch    | 2023-01-01 |
+|      2 | watch    | 2023-01-01 |
+|      3 | watch    | 2023-01-01 |
++--------+----------+------------+
+3 rows in set (0.00 sec)
+
+mysql> update item set itemname='phone',item_mfd='2024-03-03' where itemid=2;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from item;
++--------+----------+------------+
+| itemid | itemname | item_mfd   |
++--------+----------+------------+
+|      1 | watch    | 2023-01-01 |
+|      2 | phone    | 2024-03-03 |
+|      3 | watch    | 2023-01-01 |
++--------+----------+------------+
+3 rows in set (0.00 sec)
+
+mysql> update item set itemname='shoes',item_mfd='2024-03-04' where itemid=3;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from item;
++--------+----------+------------+
+| itemid | itemname | item_mfd   |
++--------+----------+------------+
+|      1 | watch    | 2023-01-01 |
+|      2 | phone    | 2024-03-03 |
+|      3 | shoes    | 2024-03-04 |
++--------+----------+------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into item(itemid,itemname,item_mfd) values(7,'cable','2023-01-01');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from item;
++--------+----------+------------+
+| itemid | itemname | item_mfd   |
++--------+----------+------------+
+|      1 | watch    | 2023-01-01 |
+|      2 | phone    | 2024-03-03 |
+|      3 | shoes    | 2024-03-04 |
+|      7 | cable    | 2023-01-01 |
++--------+----------+------------+
+4 rows in set (0.00 sec)
+
+mysql> -- CHECK --> applies user defined condition on a column
+mysql> create table person(age tinyint,check(age>18));
+ERROR 1050 (42S01): Table 'person' already exists
+mysql> select * from person;
++-----------+------+-----------+
+| name      | age  | village   |
++-----------+------+-----------+
+| prakash   |  231 | VRSEC     |
+| Ajay      |  232 | USHA RAMA |
+| sampath   |  233 | usha      |
+| kjsbichdk |  234 | ackjd     |
++-----------+------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> drop person;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'person' at line 1
+mysql> drop table person;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> create table person(age tinyint,check(age>18));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc pereson;
+ERROR 1146 (42S02): Table 'prakash.pereson' doesn't exist
+mysql> desc person;
++-------+---------+------+-----+---------+-------+
+| Field | Type    | Null | Key | Default | Extra |
++-------+---------+------+-----+---------+-------+
+| age   | tinyint | YES  |     | NULL    |       |
++-------+---------+------+-----+---------+-------+
+1 row in set (0.01 sec)
+
+mysql> show create table person;
++--------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table  | Create Table                                                                                                                                                              |
++--------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| person | CREATE TABLE `person` (
+  `age` tinyint DEFAULT NULL,
+  CONSTRAINT `person_chk_1` CHECK ((`age` > 18))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++--------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.01 sec)
+
+mysql> insert into person values(8);
+ERROR 3819 (HY000): Check constraint 'person_chk_1' is violated.
+mysql> insert into person values(18);
+ERROR 3819 (HY000): Check constraint 'person_chk_1' is violated.
+mysql> insert into person values(28);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> 

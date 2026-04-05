@@ -1,0 +1,393 @@
+Last login: Mon Mar 30 09:17:54 on ttys000
+rajeshhome@prakashs-MacBook-Pro ~ % /usr/local/mysql/bin/mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 17
+Server version: 8.0.45 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use prakash;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_prakash |
++-------------------+
+| book              |
+| person            |
+| stu_info          |
++-------------------+
+3 rows in set (0.00 sec)
+
+mysql> -- DML COMMANDAS
+mysql> create table subject(subid int unsigned,sub_name varchar(20));
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> desc subject;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| subid    | int unsigned | YES  |     | NULL    |       |
+| sub_name | varchar(20)  | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+2 rows in set (0.03 sec)
+
+mysql> insert into subject values(1,'telugu'),(2,'hindi'),(3,'tqaysgdgiewkj');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from subject;
++-------+---------------+
+| subid | sub_name      |
++-------+---------------+
+|     1 | telugu        |
+|     2 | hindi         |
+|     3 | tqaysgdgiewkj |
++-------+---------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into subject values(4,'maths'),(5,'phy');
+Query OK, 2 rows affected (0.05 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> desc subject;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| subid    | int unsigned | YES  |     | NULL    |       |
+| sub_name | varchar(20)  | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+2 rows in set (0.05 sec)
+
+mysql> select * from subject;
++-------+---------------+
+| subid | sub_name      |
++-------+---------------+
+|     1 | telugu        |
+|     2 | hindi         |
+|     3 | tqaysgdgiewkj |
+|     4 | maths         |
+|     5 | phy           |
++-------+---------------+
+5 rows in set (0.01 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_prakash |
++-------------------+
+| book              |
+| person            |
+| stu_info          |
+| subject           |
++-------------------+
+4 rows in set (0.02 sec)
+
+mysql> create table employee(empid int unsigned,empname varchar(20),mail varchar(20),doj date);
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> insert into employee (empid,ename,doj) values(1,'one','01-10-2000');
+ERROR 1054 (42S22): Unknown column 'ename' in 'field list'
+mysql> insert into employee (empid,ename,doj) values(1,'one','01-10-2000'),(1,'a','20-04-2005');
+ERROR 1054 (42S22): Unknown column 'ename' in 'field list'
+mysql> insert into employee values(1,'one','01-10-2000'),(1,'a','20-04-2005');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into employee values(1,'one','01-10-2000'),(1,'a','20-04-2005');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into employee values(1,'one','lajhowud','01-10-2000'),(1,'a','lkjiweu','20-04-2005');
+ERROR 1292 (22007): Incorrect date value: '01-10-2000' for column 'doj' at row 1
+mysql> insert into employee values(1,'a','lpk@gmail.com','10-03-2022');
+ERROR 1292 (22007): Incorrect date value: '10-03-2022' for column 'doj' at row 1
+mysql> create table emp_info(empid int unsigned,doj date);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into emp_info select empid,doj from employee;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> insert into employee values(1,'a','lpk@gmail.com','2022-03-20');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from employee;
++-------+---------+---------------+------------+
+| empid | empname | mail          | doj        |
++-------+---------+---------------+------------+
+|     1 | a       | lpk@gmail.com | 2022-03-20 |
++-------+---------+---------------+------------+
+1 row in set (0.00 sec)
+
+mysql> insert into emp_info select empid,doj from employee;
+Query OK, 1 row affected (0.00 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+mysql> select * from emp_info;
++-------+------------+
+| empid | doj        |
++-------+------------+
+|     1 | 2022-03-20 |
++-------+------------+
+1 row in set (0.00 sec)
+
+mysql> insert into employee (empid,ename,doj) values(1,'one','2023-10-17'),(1,'a','2022-04-20');
+ERROR 1054 (42S22): Unknown column 'ename' in 'field list'
+mysql> insert into employee (empid,empname,doj) values(1,'one','2023-10-17'),(1,'a','2022-04-20');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++-------+---------+---------------+------------+
+| empid | empname | mail          | doj        |
++-------+---------+---------------+------------+
+|     1 | a       | lpk@gmail.com | 2022-03-20 |
+|     1 | one     | NULL          | 2023-10-17 |
+|     1 | a       | NULL          | 2022-04-20 |
++-------+---------+---------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from emp_info;
++-------+------------+
+| empid | doj        |
++-------+------------+
+|     1 | 2022-03-20 |
++-------+------------+
+1 row in set (0.01 sec)
+
+mysql> insert into emp_info select empid,doj from employee;
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from emp_info;
++-------+------------+
+| empid | doj        |
++-------+------------+
+|     1 | 2022-03-20 |
+|     1 | 2022-03-20 |
+|     1 | 2023-10-17 |
+|     1 | 2022-04-20 |
++-------+------------+
+4 rows in set (0.00 sec)
+
+mysql> desc employee;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| empid   | int unsigned | YES  |     | NULL    |       |
+| empname | varchar(20)  | YES  |     | NULL    |       |
+| mail    | varchar(20)  | YES  |     | NULL    |       |
+| doj     | date         | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+4 rows in set (0.04 sec)
+
+mysql> alter table employee add column sal int unsigned;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| empid   | int unsigned | YES  |     | NULL    |       |
+| empname | varchar(20)  | YES  |     | NULL    |       |
+| mail    | varchar(20)  | YES  |     | NULL    |       |
+| doj     | date         | YES  |     | NULL    |       |
+| sal     | int unsigned | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from employee;
++-------+---------+---------------+------------+------+
+| empid | empname | mail          | doj        | sal  |
++-------+---------+---------------+------------+------+
+|     1 | a       | lpk@gmail.com | 2022-03-20 | NULL |
+|     1 | one     | NULL          | 2023-10-17 | NULL |
+|     1 | a       | NULL          | 2022-04-20 | NULL |
++-------+---------+---------------+------------+------+
+3 rows in set (0.00 sec)
+
+mysql> update employee set mail='uahsg@kckw.com' where empname=one;
+ERROR 1054 (42S22): Unknown column 'one' in 'where clause'
+mysql> update employee set mail='uahsg@kckw.com' where empid=1;
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from employee;
++-------+---------+----------------+------------+------+
+| empid | empname | mail           | doj        | sal  |
++-------+---------+----------------+------------+------+
+|     1 | a       | uahsg@kckw.com | 2022-03-20 | NULL |
+|     1 | one     | uahsg@kckw.com | 2023-10-17 | NULL |
+|     1 | a       | uahsg@kckw.com | 2022-04-20 | NULL |
++-------+---------+----------------+------------+------+
+3 rows in set (0.00 sec)
+
+mysql> insert into employee (empid,empname,doj) values(2,'one','2023-10-17'),(3,'a','2022-04-20');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++-------+---------+----------------+------------+------+
+| empid | empname | mail           | doj        | sal  |
++-------+---------+----------------+------------+------+
+|     1 | a       | uahsg@kckw.com | 2022-03-20 | NULL |
+|     1 | one     | uahsg@kckw.com | 2023-10-17 | NULL |
+|     1 | a       | uahsg@kckw.com | 2022-04-20 | NULL |
+|     2 | one     | NULL           | 2023-10-17 | NULL |
+|     3 | a       | NULL           | 2022-04-20 | NULL |
++-------+---------+----------------+------------+------+
+5 rows in set (0.00 sec)
+
+mysql> insert into employee (empid,empname,doj) values(2,'two','2023-10-17'),(3,'three','2022-04-20');
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++-------+---------+----------------+------------+------+
+| empid | empname | mail           | doj        | sal  |
++-------+---------+----------------+------------+------+
+|     1 | a       | uahsg@kckw.com | 2022-03-20 | NULL |
+|     1 | one     | uahsg@kckw.com | 2023-10-17 | NULL |
+|     1 | a       | uahsg@kckw.com | 2022-04-20 | NULL |
+|     2 | one     | NULL           | 2023-10-17 | NULL |
+|     3 | a       | NULL           | 2022-04-20 | NULL |
+|     2 | two     | NULL           | 2023-10-17 | NULL |
+|     3 | three   | NULL           | 2022-04-20 | NULL |
++-------+---------+----------------+------------+------+
+7 rows in set (0.00 sec)
+
+mysql> insert into employee (empid,empname,doj) values(2,'akhil','2023-10-17'),(3,'ajay','2022-04-20');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++-------+---------+----------------+------------+------+
+| empid | empname | mail           | doj        | sal  |
++-------+---------+----------------+------------+------+
+|     1 | a       | uahsg@kckw.com | 2022-03-20 | NULL |
+|     1 | one     | uahsg@kckw.com | 2023-10-17 | NULL |
+|     1 | a       | uahsg@kckw.com | 2022-04-20 | NULL |
+|     2 | one     | NULL           | 2023-10-17 | NULL |
+|     3 | a       | NULL           | 2022-04-20 | NULL |
+|     2 | two     | NULL           | 2023-10-17 | NULL |
+|     3 | three   | NULL           | 2022-04-20 | NULL |
+|     2 | akhil   | NULL           | 2023-10-17 | NULL |
+|     3 | ajay    | NULL           | 2022-04-20 | NULL |
++-------+---------+----------------+------------+------+
+9 rows in set (0.00 sec)
+
+mysql> update employee set mail='kqhd@akjvd.com',sal=20000 where empid=3;
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from employee;
++-------+---------+----------------+------------+-------+
+| empid | empname | mail           | doj        | sal   |
++-------+---------+----------------+------------+-------+
+|     1 | a       | uahsg@kckw.com | 2022-03-20 |  NULL |
+|     1 | one     | uahsg@kckw.com | 2023-10-17 |  NULL |
+|     1 | a       | uahsg@kckw.com | 2022-04-20 |  NULL |
+|     2 | one     | NULL           | 2023-10-17 |  NULL |
+|     3 | a       | kqhd@akjvd.com | 2022-04-20 | 20000 |
+|     2 | two     | NULL           | 2023-10-17 |  NULL |
+|     3 | three   | kqhd@akjvd.com | 2022-04-20 | 20000 |
+|     2 | akhil   | NULL           | 2023-10-17 |  NULL |
+|     3 | ajay    | kqhd@akjvd.com | 2022-04-20 | 20000 |
++-------+---------+----------------+------------+-------+
+9 rows in set (0.00 sec)
+
+mysql> insert into employee (empid,empname,doj) values(4,'prakash','2023-10-17'),(5,'sampath','2022-04-20');
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++-------+---------+----------------+------------+-------+
+| empid | empname | mail           | doj        | sal   |
++-------+---------+----------------+------------+-------+
+|     1 | a       | uahsg@kckw.com | 2022-03-20 |  NULL |
+|     1 | one     | uahsg@kckw.com | 2023-10-17 |  NULL |
+|     1 | a       | uahsg@kckw.com | 2022-04-20 |  NULL |
+|     2 | one     | NULL           | 2023-10-17 |  NULL |
+|     3 | a       | kqhd@akjvd.com | 2022-04-20 | 20000 |
+|     2 | two     | NULL           | 2023-10-17 |  NULL |
+|     3 | three   | kqhd@akjvd.com | 2022-04-20 | 20000 |
+|     2 | akhil   | NULL           | 2023-10-17 |  NULL |
+|     3 | ajay    | kqhd@akjvd.com | 2022-04-20 | 20000 |
+|     4 | prakash | NULL           | 2023-10-17 |  NULL |
+|     5 | sampath | NULL           | 2022-04-20 |  NULL |
++-------+---------+----------------+------------+-------+
+11 rows in set (0.01 sec)
+
+mysql> update employee set mail='kkjhsdbqhd@akjvd.com',sal=200000 where empid=4;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++-------+---------+----------------------+------------+--------+
+| empid | empname | mail                 | doj        | sal    |
++-------+---------+----------------------+------------+--------+
+|     1 | a       | uahsg@kckw.com       | 2022-03-20 |   NULL |
+|     1 | one     | uahsg@kckw.com       | 2023-10-17 |   NULL |
+|     1 | a       | uahsg@kckw.com       | 2022-04-20 |   NULL |
+|     2 | one     | NULL                 | 2023-10-17 |   NULL |
+|     3 | a       | kqhd@akjvd.com       | 2022-04-20 |  20000 |
+|     2 | two     | NULL                 | 2023-10-17 |   NULL |
+|     3 | three   | kqhd@akjvd.com       | 2022-04-20 |  20000 |
+|     2 | akhil   | NULL                 | 2023-10-17 |   NULL |
+|     3 | ajay    | kqhd@akjvd.com       | 2022-04-20 |  20000 |
+|     4 | prakash | kkjhsdbqhd@akjvd.com | 2023-10-17 | 200000 |
+|     5 | sampath | NULL                 | 2022-04-20 |   NULL |
++-------+---------+----------------------+------------+--------+
+11 rows in set (0.00 sec)
+
+mysql> update employee set doj='2020-03-23' where empid=1 or empid=2;
+Query OK, 6 rows affected (0.01 sec)
+Rows matched: 6  Changed: 6  Warnings: 0
+
+mysql> select * from employee;
++-------+---------+----------------------+------------+--------+
+| empid | empname | mail                 | doj        | sal    |
++-------+---------+----------------------+------------+--------+
+|     1 | a       | uahsg@kckw.com       | 2020-03-23 |   NULL |
+|     1 | one     | uahsg@kckw.com       | 2020-03-23 |   NULL |
+|     1 | a       | uahsg@kckw.com       | 2020-03-23 |   NULL |
+|     2 | one     | NULL                 | 2020-03-23 |   NULL |
+|     3 | a       | kqhd@akjvd.com       | 2022-04-20 |  20000 |
+|     2 | two     | NULL                 | 2020-03-23 |   NULL |
+|     3 | three   | kqhd@akjvd.com       | 2022-04-20 |  20000 |
+|     2 | akhil   | NULL                 | 2020-03-23 |   NULL |
+|     3 | ajay    | kqhd@akjvd.com       | 2022-04-20 |  20000 |
+|     4 | prakash | kkjhsdbqhd@akjvd.com | 2023-10-17 | 200000 |
+|     5 | sampath | NULL                 | 2022-04-20 |   NULL |
++-------+---------+----------------------+------------+--------+
+11 rows in set (0.01 sec)
+
+mysql> -- DELETE COMMAND
+mysql> delete from employee where empid=1;
+Query OK, 3 rows affected (0.01 sec)
+
+mysql> select * from employee;
++-------+---------+----------------------+------------+--------+
+| empid | empname | mail                 | doj        | sal    |
++-------+---------+----------------------+------------+--------+
+|     2 | one     | NULL                 | 2020-03-23 |   NULL |
+|     3 | a       | kqhd@akjvd.com       | 2022-04-20 |  20000 |
+|     2 | two     | NULL                 | 2020-03-23 |   NULL |
+|     3 | three   | kqhd@akjvd.com       | 2022-04-20 |  20000 |
+|     2 | akhil   | NULL                 | 2020-03-23 |   NULL |
+|     3 | ajay    | kqhd@akjvd.com       | 2022-04-20 |  20000 |
+|     4 | prakash | kkjhsdbqhd@akjvd.com | 2023-10-17 | 200000 |
+|     5 | sampath | NULL                 | 2022-04-20 |   NULL |
++-------+---------+----------------------+------------+--------+
+8 rows in set (0.00 sec)
+
+mysql> 
+
+
+

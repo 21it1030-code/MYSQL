@@ -1,0 +1,268 @@
+Last login: Thu Apr  2 10:41:41 on ttys000
+rajeshhome@prakashs-MacBook-Pro ~ % /usr/local/mysql/bin/mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 20
+Server version: 8.0.45 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use prakash;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_prakash |
++-------------------+
+| book              |
+| dept              |
+| emp_info          |
+| employee          |
+| faculty           |
+| item              |
+| person            |
+| stu               |
+| stu_info          |
+| sub               |
+| subject           |
++-------------------+
+11 rows in set (0.02 sec)
+
+mysql> create database relaton_info;
+Query OK, 1 row affected (0.07 sec)
+
+mysql> sue relation_info;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'sue relation_info' at line 1
+mysql> use relation_info;
+ERROR 1049 (42000): Unknown database 'relation_info'
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| prakash            |
+| relaton_info       |
+| sys                |
++--------------------+
+6 rows in set (0.04 sec)
+
+mysql> use relaton_info;
+Database changed
+mysql> create table movie(movid int unsigned primary key,movname varchar(20) unique key not null);
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> insert into movie values(1,'wwe'),(2,'F1'),(3,'iuyfi');
+Query OK, 3 rows affected (0.02 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> create table theater(theaterid chhhar(3) primary key,threatername varchar(10) not null,location varchar(20));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'chhhar(3) primary key,threatername varchar(10) not null,location varchar(20))' at line 1
+mysql> create table theater(theaterid char(3) primary key,threatername varchar(10) not null,location varchar(20));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into theater values('t1','pvr','vij 1'),('th2','pvp','vij 2');
+Query OK, 2 rows affected (0.02 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> create table screen(scrid char(5) primary key,theaterid char(3),scrtype enum('gold','bronz','2d','3d'),foreign key(theaterid) references theater(theaterid));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into screen values('scr1','th1','gold'),('scr2','th2','bronz'),('scr3','th2','2d');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`relaton_info`.`screen`, CONSTRAINT `screen_ibfk_1` FOREIGN KEY (`theaterid`) REFERENCES `theater` (`theaterid`))
+mysql> insert into screen values('scr1','t1','gold'),('scr2','th2','bronz'),('scr3','th2','2d');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> create table show_play(showid char(5) primary key,movieid int unsigned not null,screenid char(5) not null,foreign key(movieid) references movie(movid),foreign key(screenid) references screen(scrid),show_time datetime,unique key(movieid,screenid,show_time));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select * from movie;
++-------+---------+
+| movid | movname |
++-------+---------+
+|     2 | F1      |
+|     3 | iuyfi   |
+|     1 | wwe     |
++-------+---------+
+3 rows in set (0.08 sec)
+
+mysql> select * from theater;
++-----------+--------------+----------+
+| theaterid | threatername | location |
++-----------+--------------+----------+
+| t1        | pvr          | vij 1    |
+| th2       | pvp          | vij 2    |
++-----------+--------------+----------+
+2 rows in set (0.01 sec)
+
+mysql> select * from screen;
++-------+-----------+---------+
+| scrid | theaterid | scrtype |
++-------+-----------+---------+
+| scr1  | t1        | gold    |
+| scr2  | th2       | bronz   |
+| scr3  | th2       | 2d      |
++-------+-----------+---------+
+3 rows in set (0.01 sec)
+
+mysql> insert into show_play values('shw1',1,'scr1','2026-04-02 10:00:00');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into show_play values('shw2',2,'scr2','2026-04-02 02:00:00');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into show_play values('shw3',3,'scr3','2026-04-02 10:00:00');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from show_play;
++--------+---------+----------+---------------------+
+| showid | movieid | screenid | show_time           |
++--------+---------+----------+---------------------+
+| shw1   |       1 | scr1     | 2026-04-02 10:00:00 |
+| shw2   |       2 | scr2     | 2026-04-02 02:00:00 |
+| shw3   |       3 | scr3     | 2026-04-02 10:00:00 |
++--------+---------+----------+---------------------+
+3 rows in set (0.01 sec)
+
+mysql> create table uasr(userid int unsigned primary key,username varchar(20)not null);
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> insert into user values(1,'sam'),(2,'ram');
+ERROR 1146 (42S02): Table 'relaton_info.user' doesn't exist
+mysql> insert into uasr values(1,'sam'),(2,'ram');
+Query OK, 2 rows affected (0.03 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from uasr;
++--------+----------+
+| userid | username |
++--------+----------+
+|      1 | sam      |
+|      2 | ram      |
++--------+----------+
+2 rows in set (0.04 sec)
+
+mysql> drop table uasr;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table muser(userid int unsigned primary key,username varchar(20)not null);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select * from muser;
+Empty set (0.00 sec)
+
+mysql> insert into muser values(1,'sam'),(2,'ram');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from muser;
++--------+----------+
+| userid | username |
++--------+----------+
+|      1 | sam      |
+|      2 | ram      |
++--------+----------+
+2 rows in set (0.00 sec)
+
+mysql> create table booking(bookingid int unsigned primary key,showid char(5),userid char(5),foreign key(showid) references show_play(showid),foreign key(userid) references muser(userid));
+ERROR 3780 (HY000): Referencing column 'userid' and referenced column 'userid' in foreign key constraint 'booking_ibfk_2' are incompatible.
+mysql> create table booking(bookingid int unsigned primary key,showid char(5),userid int unsigned,foreign key(showid) references show_play(showid),foreign key(userid) references muser(userid));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into muser values(3,'sampath'),(4,'lpk');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from muser;
++--------+----------+
+| userid | username |
++--------+----------+
+|      1 | sam      |
+|      2 | ram      |
+|      3 | sampath  |
+|      4 | lpk      |
++--------+----------+
+4 rows in set (0.00 sec)
+
+mysql> insert into booking values(1,'shw1',1),(2,'shw2',1);
+Query OK, 2 rows affected (0.08 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from booking;
++-----------+--------+--------+
+| bookingid | showid | userid |
++-----------+--------+--------+
+|         1 | shw1   |      1 |
+|         2 | shw2   |      1 |
++-----------+--------+--------+
+2 rows in set (0.01 sec)
+
+mysql> insert into booking values(3,'shw1',2),(4,'shw1',2);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from booking;
++-----------+--------+--------+
+| bookingid | showid | userid |
++-----------+--------+--------+
+|         1 | shw1   |      1 |
+|         2 | shw2   |      1 |
+|         3 | shw1   |      2 |
+|         4 | shw1   |      2 |
++-----------+--------+--------+
+4 rows in set (0.01 sec)
+
+mysql> create table booking_payment(paymentid int unsigned primary key,bookingid int unsigned unique key noy null,payment_time datetime,status enum('paid','notpaid'),foreign key(bookingid) references booking(bookingid));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'noy null,payment_time datetime,status enum('paid','notpaid'),foreign key(booking' at line 1
+mysql> create table booking_payment(paymentid int unsigned primary key,bookingid int unsigned unique key not null,payment_time datetime,status enum('paid','notpaid'),foreign key(bookingid) references booking(bookingid));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> insert into booking_payment values(1,1,'2026-04-03 10:00:00','paid');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into booking_payment values(2,2,'2026-04-03 02:00:00','paid');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into booking_payment values(3,4,'2026-04-03 02:00:00','paid');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from booking_payment;
++-----------+-----------+---------------------+--------+
+| paymentid | bookingid | payment_time        | status |
++-----------+-----------+---------------------+--------+
+|         1 |         1 | 2026-04-03 10:00:00 | paid   |
+|         2 |         2 | 2026-04-03 02:00:00 | paid   |
+|         3 |         4 | 2026-04-03 02:00:00 | paid   |
++-----------+-----------+---------------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> -- select 
+mysql> select bookingid from booking_payment;
++-----------+
+| bookingid |
++-----------+
+|         1 |
+|         2 |
+|         4 |
++-----------+
+3 rows in set (0.01 sec)
+
+mysql> select * from booking_payment where paymentid=1;
++-----------+-----------+---------------------+--------+
+| paymentid | bookingid | payment_time        | status |
++-----------+-----------+---------------------+--------+
+|         1 |         1 | 2026-04-03 10:00:00 | paid   |
++-----------+-----------+---------------------+--------+
+1 row in set (0.01 sec)
+
+mysql> 
