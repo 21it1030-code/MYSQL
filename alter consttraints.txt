@@ -1,0 +1,256 @@
+Last login: Thu Apr 16 12:01:57 on ttys000
+rajeshhome@prakashs-MacBook-Pro ~ % /usr/local/mysql/bin/mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 28
+Server version: 8.0.45 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> -- alter add primary key
+mysql> -- alter unique key
+mysql> -- alter to foreign key
+mysql> -- alter to add auto_increment
+mysql> -- alter to set auto_increment
+mysql> -- alter add not null
+mysql> -- alter to add default
+mysql> use extr_data;
+ERROR 1049 (42000): Unknown database 'extr_data'
+mysql> use extra_data;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> -- alter to add primary key
+mysql> alter table book add primary key(bookid);
+ERROR 1146 (42S02): Table 'extra_data.book' doesn't exist
+mysql> use extra_db;
+ERROR 1049 (42000): Unknown database 'extra_db'
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| extra_data         |
+| information_schema |
+| mysql              |
+| performance_schema |
+| prakash            |
+| relaton_info       |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.01 sec)
+
+mysql> use extra_data;
+Database changed
+mysql> show tables;
++----------------------+
+| Tables_in_extra_data |
++----------------------+
+| customers            |
+| dept                 |
+| faculty              |
+| order_details        |
+| orders               |
+| product              |
++----------------------+
+6 rows in set (0.01 sec)
+
+mysql> create table book (bookid int(5),bookname char(20));
+Query OK, 0 rows affected, 1 warning (0.09 sec)
+
+mysql> alter table book add primary key(bookid);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc book;
++----------+----------+------+-----+---------+-------+
+| Field    | Type     | Null | Key | Default | Extra |
++----------+----------+------+-----+---------+-------+
+| bookid   | int      | NO   | PRI | NULL    |       |
+| bookname | char(20) | YES  |     | NULL    |       |
++----------+----------+------+-----+---------+-------+
+2 rows in set (0.02 sec)
+
+mysql> alter table book modify column bookid int auto_increment;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc book;
++----------+----------+------+-----+---------+----------------+
+| Field    | Type     | Null | Key | Default | Extra          |
++----------+----------+------+-----+---------+----------------+
+| bookid   | int      | NO   | PRI | NULL    | auto_increment |
+| bookname | char(20) | YES  |     | NULL    |                |
++----------+----------+------+-----+---------+----------------+
+2 rows in set (0.01 sec)
+
+mysql> alter table book add unique key (bookname);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc book;
++----------+----------+------+-----+---------+----------------+
+| Field    | Type     | Null | Key | Default | Extra          |
++----------+----------+------+-----+---------+----------------+
+| bookid   | int      | NO   | PRI | NULL    | auto_increment |
+| bookname | char(20) | YES  | UNI | NULL    |                |
++----------+----------+------+-----+---------+----------------+
+2 rows in set (0.01 sec)
+
+mysql> alter table book modify column bookname varchar(20) not null;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc book;
++----------+-------------+------+-----+---------+----------------+
+| Field    | Type        | Null | Key | Default | Extra          |
++----------+-------------+------+-----+---------+----------------+
+| bookid   | int         | NO   | PRI | NULL    | auto_increment |
+| bookname | varchar(20) | NO   | UNI | NULL    |                |
++----------+-------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into book(bookname) values('life');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> selecty * from book;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selecty * from book' at line 1
+mysql> select * from book;
++--------+----------+
+| bookid | bookname |
++--------+----------+
+|      1 | life     |
++--------+----------+
+1 row in set (0.00 sec)
+
+mysql> alter table book auto_increment=200;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from book;
++--------+----------+
+| bookid | bookname |
++--------+----------+
+|      1 | life     |
++--------+----------+
+1 row in set (0.00 sec)
+
+mysql> insert into book(bookname) values('lifes');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from book;
++--------+----------+
+| bookid | bookname |
++--------+----------+
+|      1 | life     |
+|    200 | lifes    |
++--------+----------+
+2 rows in set (0.00 sec)
+
+mysql> alter table book modify bookname varchar(50) not null default 'NA';
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc book;
++----------+-------------+------+-----+---------+----------------+
+| Field    | Type        | Null | Key | Default | Extra          |
++----------+-------------+------+-----+---------+----------------+
+| bookid   | int         | NO   | PRI | NULL    | auto_increment |
+| bookname | varchar(50) | NO   | UNI | NA      |                |
++----------+-------------+------+-----+---------+----------------+
+2 rows in set (0.02 sec)
+
+mysql> create table rent_books(rentid int primary key,bookid int);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc rent_books;
++--------+------+------+-----+---------+-------+
+| Field  | Type | Null | Key | Default | Extra |
++--------+------+------+-----+---------+-------+
+| rentid | int  | NO   | PRI | NULL    |       |
+| bookid | int  | YES  |     | NULL    |       |
++--------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table rent_books add foreign key 
+    -> (bookid) refernces book(bookid);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'refernces book(bookid)' at line 2
+mysql> alter table rent_books add foreign key (bookid) references book(bookid);
+Query OK, 0 rows affected (0.13 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter add primary key--
+    -> alter unique key--
+    -> alter to foreign key--
+    -> alter to add auto_increment--
+    -> alter to set auto_increment--
+    -> alter add not null
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'add primary key
+alter unique key
+alter to foreign key
+alter to add auto_incremen' at line 1
+mysql> alter table rent_books drop foreign key rent_books_ifbk_1;
+ERROR 1091 (42000): Can't DROP 'rent_books_ifbk_1'; check that column/key exists
+mysql> alter table rent_books drop foreign key rent_books_ibfk_1;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc rent_books;
++--------+------+------+-----+---------+-------+
+| Field  | Type | Null | Key | Default | Extra |
++--------+------+------+-----+---------+-------+
+| rentid | int  | NO   | PRI | NULL    |       |
+| bookid | int  | YES  | MUL | NULL    |       |
++--------+------+------+-----+---------+-------+
+2 rows in set (0.03 sec)
+
+mysql> alter table rent_books drop index bookid;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc rent_books;
++--------+------+------+-----+---------+-------+
+| Field  | Type | Null | Key | Default | Extra |
++--------+------+------+-----+---------+-------+
+| rentid | int  | NO   | PRI | NULL    |       |
+| bookid | int  | YES  |     | NULL    |       |
++--------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table book modify column bookidint not null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'not null' at line 1
+mysql> alter table book modify column bookid int not null;
+Query OK, 2 rows affected (0.05 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> alter table book drop primary key;
+Query OK, 2 rows affected (0.07 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> desc book;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| bookid   | int         | NO   |     | NULL    |       |
+| bookname | varchar(50) | NO   | PRI | NA      |       |
++----------+-------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> create table dummu1(id int unique key);
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> alter table dummy1 drop index id;
+ERROR 1146 (42S02): Table 'extra_data.dummy1' doesn't exist
+mysql> alter table dummu1 drop index id;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> 
